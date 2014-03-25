@@ -1,4 +1,4 @@
-var directions = require('./directions');
+// var directions = require('./directions');
 
 function GameManager(grid, player, view) {
     this.grid = grid;
@@ -37,7 +37,7 @@ GameManager.prototype.run = function() {
     while (!this.gameOver) {
         var best = this.player.getMove();
         var directionIndex = best.move;
-        // console.log(directions[directionIndex] + '\n');
+        // console.log(directions[directionIndex]);
         var result = this.grid.move(directionIndex);
         this.onMove(result);
     }
