@@ -14,4 +14,4 @@ module.exports = {
     stolen: function (grid) {
         return new StolenAI(grid);
     }
-}
+};

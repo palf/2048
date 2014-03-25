@@ -5,12 +5,11 @@ function MergeSumAI (grid) {
         return 0;
     }
 
-
     this.getMove = function () {
         return {
             move: bestMove()
-        }
-    }
+        };
+    };
 }
 
 module.exports = MergeSumAI;

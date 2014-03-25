@@ -4,28 +4,31 @@ var analysis = {
         var mark = function(x, y, value) {
             if (x >= 0 && x <= 3 && y >= 0 && y <= 3 &&
                     grid.cells[x][y] &&
-                    grid.cells[x][y].value == value &&
+                    grid.cells[x][y].value === value &&
                     !grid.cells[x][y].marked ) {
                 grid.cells[x][y].marked = true;
 
-                for (direction in [0,1,2,3]) {
+                for (var direction in [0,1,2,3]) {
                     var vector = grid._getVector(direction);
                     mark(x + vector.x, y + vector.y, value);
                 }
             }
-        }
+        };
 
         var islands = 0;
 
-        for (var x=0; x<4; x++) {
-            for (var y=0; y<4; y++) {
+        var x, y;
+
+        for (x=0; x<4; x++) {
+            for (y=0; y<4; y++) {
                 if (grid.cells[x][y]) {
-                    grid.cells[x][y].marked = false
+                    grid.cells[x][y].marked = false;
                 }
             }
         }
-        for (var x=0; x<4; x++) {
-            for (var y=0; y<4; y++) {
+
+        for (x=0; x<4; x++) {
+            for (y=0; y<4; y++) {
                 if (grid.cells[x][y] &&
                         !grid.cells[x][y].marked) {
                     islands++;
@@ -66,7 +69,6 @@ var analysis = {
     },
 
     monotonicity: function(grid) {
-        var self = this;
         var marked = [];
         var queued = [];
         var highestValue = 0;
@@ -86,11 +88,11 @@ var analysis = {
             }
         }
 
-        increases = 0;
-        cellQueue = [highestCell];
+        var increases = 0;
+        var cellQueue = [highestCell];
         queued[highestCell.x][highestCell.y] = true;
-        markList = [highestCell];
-        markAfter = 1; // only mark after all queued moves are done, as if searching in parallel
+        var markList = [highestCell];
+        var markAfter = 1; // only mark after all queued moves are done, as if searching in parallel
 
         var markAndScore = function(cell) {
             markList.push(cell);
@@ -100,15 +102,15 @@ var analysis = {
             } else {
                 value = 0;
             }
-            for (direction in [0,1,2,3]) {
+            for (var direction in [0,1,2,3]) {
                 var vector = grid._getVector(direction);
-                var target = { x: cell.x + vector.x, y: cell.y+vector.y }
+                var target = { x: cell.x + vector.x, y: cell.y+vector.y };
                 if (grid._withinBounds(target) && !marked[target.x][target.y]) {
                     if ( grid._cellOccupied(target) ) {
-                        targetValue = Math.log(grid._cellContent(target).value ) / Math.log(2);
+                        var targetValue = Math.log(grid._cellContent(target).value ) / Math.log(2);
                         if ( targetValue > value ) {
                             //console.log(cell, value, target, targetValue);
-                            increases += targetValue - value;
+                            increases += (targetValue - value);
                         }
                     }
                     if (!queued[target.x][target.y]) {
@@ -117,18 +119,18 @@ var analysis = {
                     }
                 }
             }
-            if (markAfter == 0) {
+            if (markAfter === 0) {
                 while (markList.length > 0) {
                     var cel = markList.pop();
                     marked[cel.x][cel.y] = true;
                 }
                 markAfter = cellQueue.length;
             }
-        }
+        };
 
         while (cellQueue.length > 0) {
             markAfter--;
-            markAndScore(cellQueue.shift())
+            markAndScore(cellQueue.shift());
         }
 
         return -increases;
@@ -167,26 +169,26 @@ var analysis = {
 
         // left/right direction
         for (var y=0; y<4; y++) {
-            var current = 0;
-            var next = current+1;
-            while ( next<4 ) {
-                while ( next<4 && !grid._cellOccupied( grid.indexes[next][y] )) {
-                    next++;
+            var current2 = 0;
+            var next2 = current2+1;
+            while ( next2<4 ) {
+                while ( next2<4 && !grid._cellOccupied( grid.indexes[next2][y] )) {
+                    next2++;
                 }
-                if (next>=4) { next--; }
-                var currentValue = grid._cellOccupied({x:current, y:y}) ?
-                    Math.log(grid._cellContent( grid.indexes[current][y] ).value) / Math.log(2) :
+                if (next2>=4) { next2--; }
+                var current2Value2 = grid._cellOccupied({x:current2, y:y}) ?
+                    Math.log(grid._cellContent( grid.indexes[current2][y] ).value) / Math.log(2) :
                     0;
-                var nextValue = grid._cellOccupied({x:next, y:y}) ?
-                    Math.log(grid._cellContent( grid.indexes[next][y] ).value) / Math.log(2) :
+                var next2Value2 = grid._cellOccupied({x:next2, y:y}) ?
+                    Math.log(grid._cellContent( grid.indexes[next2][y] ).value) / Math.log(2) :
                     0;
-                if (currentValue > nextValue) {
-                    totals[2] += nextValue - currentValue;
-                } else if (nextValue > currentValue) {
-                    totals[3] += currentValue - nextValue;
+                if (current2Value2 > next2Value2) {
+                    totals[2] += next2Value2 - current2Value2;
+                } else if (next2Value2 > current2Value2) {
+                    totals[3] += current2Value2 - next2Value2;
                 }
-                current = next;
-                next++;
+                current2 = next2;
+                next2++;
             }
         }
 

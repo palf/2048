@@ -30,7 +30,7 @@ GameManager.prototype.onMove = function(result) {
     if (!this.grid.movesAvailable()) {
         this.gameOver = true;
     }
-}
+};
 
 
 GameManager.prototype.run = function() {
@@ -41,7 +41,7 @@ GameManager.prototype.run = function() {
         var result = this.grid.move(directionIndex);
         this.onMove(result);
     }
-}
+};
 
 
 module.exports = GameManager;

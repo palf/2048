@@ -21,7 +21,7 @@ var toString = function(grid) {
         string += '\n';
     }
     return string;
-}
+};
 
 // grid.row(i) -> [] of cells in row i
 // grid.column(j) -> [] of cells in column j
@@ -33,11 +33,11 @@ var toString = function(grid) {
 var ConsoleView = function () {
     this.display = function (grid) {
         console.log(toString(grid));
-    }
+    };
 };
 
 module.exports = {
     console: function () {
         return new ConsoleView();
     }
-}
+};

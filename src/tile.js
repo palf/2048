@@ -18,6 +18,6 @@ Tile.prototype.updatePosition = function (position) {
 
 Tile.prototype.clone = function() {
     return new Tile({ x: this.x, y: this.y }, this.value);
-}
+};
 
 module.exports = Tile;

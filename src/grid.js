@@ -8,7 +8,7 @@ function Grid(size) {
 
     function randomSelect (cells) {
         return cells[Math.floor(Math.random() * cells.length)];
-    };
+    }
 
     this.availableCells = function () {
         var available = [];
@@ -28,7 +28,7 @@ function Grid(size) {
                 operation(x, y, self.cells[x][y]);
             }
         }
-    };
+    }
 
 
     this._cellsAvailable = function () {
@@ -75,7 +75,7 @@ function Grid(size) {
 
 
     this.clone = function() {
-        newGrid = new Grid(size);
+        var newGrid = new Grid(size);
         newGrid.playerTurn = this.playerTurn;
         for (var x = 0; x < size; x++) {
             for (var y = 0; y < size; y++) {
@@ -116,7 +116,7 @@ function Grid(size) {
         1: { x: 1,    y: 0 },
         2: { x: 0,    y: 1 },
         3: { x: -1, y: 0 }
-    }
+    };
 
 
     this._getVector = function (direction) {
@@ -173,7 +173,7 @@ function Grid(size) {
     this.placeRandomTile = function() {
         this._addRandomTile();
         this.playerTurn = true;
-    }
+    };
 
 
     this._buildTraversals = function (vector) {
@@ -247,33 +247,34 @@ function Grid(size) {
         for (var x = 0; x < size; x++) {
             for (var y = 0; y < size; y++) {
                 if (self._cellOccupied(indexes[x][y])) {
-                    if (self._cellContent(indexes[x][y]).value == value) {
+                    if (self._cellContent(indexes[x][y]).value === value) {
                         return true;
                     }
                 }
             }
         }
         return false;
-    }
+    };
 
     var startTiles = 2;
     this.playerTurn = true;
 
     this.cells = [];
     var indexes = [];
+    var x, y;
 
-    for (var x = 0; x < size; x ++) {
+    for (x = 0; x < size; x ++) {
         var column = [];
-        for (var y = 0; y < size; y ++) {
+        for (y = 0; y < size; y ++) {
             column.push({ x: x, y: y });
         }
         indexes.push(column);
     }
 
-    for (var x = 0; x < size; x++) {
+    for (x = 0; x < size; x++) {
         var row = this.cells[x] = [];
 
-        for (var y = 0; y < size; y++) {
+        for (y = 0; y < size; y++) {
             row.push(null);
         }
     }
