@@ -32,7 +32,7 @@ var toString = function(grid) {
 
 var ConsoleView = function () {
     this.display = function (grid) {
-        console.log(toString(grid));
+        // console.log(toString(grid));
     };
 };
 

@@ -286,4 +286,5 @@ function Grid(size) {
     this.indexes = indexes; // for stolen ai
     this.eachCell = eachCell; // for view
 }
+
 module.exports = Grid;

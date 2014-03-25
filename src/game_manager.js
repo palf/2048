@@ -37,7 +37,7 @@ GameManager.prototype.run = function() {
     while (!this.gameOver) {
         var best = this.player.getMove();
         var directionIndex = best.move;
-        console.log(directions[directionIndex] + '\n');
+        // console.log(directions[directionIndex] + '\n');
         var result = this.grid.move(directionIndex);
         this.onMove(result);
     }
