@@ -1,7 +1,7 @@
-var GameManager = require('./src/game_manager');
-var Grid = require('./src/grid');
-var AIs = require('./src/ais');
-var Views = require('./src/views');
+var GameManager = require('./game_manager');
+var Grid = require('./grid');
+var AIs = require('./ais');
+var Views = require('./views');
 
 
 function startApplication () {
@@ -11,6 +11,7 @@ function startApplication () {
 
     var manager = new GameManager(grid, player, view);
     manager.run();
+    view.display(grid);
     return manager.won;
 }
 

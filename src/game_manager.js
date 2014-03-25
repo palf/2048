@@ -9,7 +9,7 @@ function GameManager(grid, player, view) {
     this.won = false;
 
     this.updateView = function () {
-        view.display(grid);
+        // view.display(grid);
     };
 
     this.updateView();

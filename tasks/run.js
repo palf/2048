@@ -2,7 +2,7 @@
 
 exports.config = {
     app: {
-        script: 'start.js'
+        script: 'src/main.js'
     },
     options: {
         watch: '<%= lint.source.src %>',
