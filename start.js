@@ -6,7 +6,7 @@ var Views = require('./src/views');
 
 function startApplication () {
     var grid = new Grid(4);
-    var player = AIs.stolen(grid);
+    var player = AIs.random(grid);
     var view = Views.console();
 
     var manager = new GameManager(grid, player, view);

@@ -1,6 +1,6 @@
 var Tile = require('./tile');
 
-var win_limit = 32;
+var win_limit = 128;
 
 
 function Grid(size) {
@@ -112,9 +112,9 @@ function Grid(size) {
 
 
     var vectors = {
-        0: { x: 0,    y: -1 },
-        1: { x: 1,    y: 0 },
-        2: { x: 0,    y: 1 },
+        0: { x: 0,  y: -1 },
+        1: { x: 1,  y: 0 },
+        2: { x: 0,  y: 1 },
         3: { x: -1, y: 0 }
     };
 
