@@ -21,8 +21,13 @@ function reverse (array) {
     return newCollection;
 }
 
+function selectAtRandom (array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
 module.exports = {
     each: each,
     filter: filter,
-    reverse: reverse
+    reverse: reverse,
+    selectAtRandom: selectAtRandom
 };

@@ -1,83 +1,52 @@
-// var directions = require('./directions');
+var directions = require('./directions');
+
+var winningValue = 128;
 
 function GameManager(grid, player, view) {
-    this.grid = grid;
-    this.player = player;
-    this.view = view;
+    var gameOver = false;
+    var gameWon = false;
 
-    this.gameOver = false;
-    this.won = false;
-
-    this.updateView = function () {
+    function updateView () {
         view.display(grid);
+    }
+
+    function handleWinning () {
+        gameWon = true;
+        gameOver = true;
+    }
+
+    function handleLosing () {
+        gameWon = false;
+        gameOver = true;
+    }
+
+    function winCondition (grid) {
+        return grid.contains(winningValue);
+    }
+
+    function loseCondition (grid) {
+        return !grid.movesAvailable();
+    }
+
+    function handleMove (moved) {
+        if (moved) { grid.placeRandomTile(); }
+        view.display(grid);
+
+        if ( winCondition(grid) ) { handleWinning(); }
+        else if ( loseCondition(grid) ) { handleLosing(); }
+    }
+
+    this.run = function() {
+        while (!gameOver) {
+            var direction = player.getMove();
+            var moved = grid.move(direction);
+            console.log(direction, moved);
+            handleMove(moved);
+        }
+        return gameWon;
     };
 
-    this.updateView();
+    updateView();
 }
 
-
-GameManager.prototype.onMove = function(result) {
-    if (result.won) {
-        this.won = true;
-        this.gameOver = true;
-    } else {
-        if (result.moved) {
-            this.grid.placeRandomTile();
-        }
-    }
-    this.updateView();
-
-    if (!this.grid.movesAvailable()) {
-        this.gameOver = true;
-    }
-};
-
-
-GameManager.prototype.run = function() {
-    while (!this.gameOver) {
-        var best = this.player.getMove();
-        var directionIndex = best.move;
-        var result = this.grid.move(directionIndex);
-        this.onMove(result);
-    }
-};
-
-
 module.exports = GameManager;
-
-
-
-
-
-
-
-// var handleWinning = function () {
-//     this.won = true;
-//     this.gameOver = true;
-// }
-
-// var handleLosing = function () {
-//     this.won = false;
-//     this.gameOver = true;
-// }
-
-// function loseCondition (grid) {
-//     return !grid.hasMovesAvailable();
-// }
-
-// function winCondition (grid) {
-//     return grid.contains(2048);
-// }
-
-// function requestNextMove () {
-//     var move = this.player.getMove();
-
-// }
-
-// var handleMove = function (result) {
-//     view.display(grid);
-
-//     if ( winCondition(grid) ) { handleWinning(); }
-//     else if ( loseCondition(grid) ) { handleLosing(); }
-//     else { requestNextMove(); }
-// }

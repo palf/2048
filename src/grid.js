@@ -1,18 +1,11 @@
-var directions = require('./directions');
 var collection = require('./collection');
+var order = require('./grid_ordering');
+var superMerge = require('./merge');
 
 var each = collection.each;
 var filter = collection.filter;
-var reverse = collection.reverse;
+var selectAtRandom = collection.selectAtRandom;
 
-
-
-function randomFrom (array) {
-    var index = Math.floor(Math.random() * array.length);
-    return array[index];
-}
-
-var superMerge = require('./merge');
 
 function buildGrid (size) {
     var cells = [];
@@ -54,7 +47,7 @@ function Grid (size) {
         return emptyCells().length > 0;
     }
 
-    function directMergesAvailable () {
+    function neighbourMergesAvailable () {
         var mergeAvailable = false;
         function checkNeighboursForMatch (cell) {
             function valueMatches (neighbour) {
@@ -69,101 +62,41 @@ function Grid (size) {
     }
 
     this.movesAvailable = function () {
-        return emptyCellsExist() || directMergesAvailable();
+        return emptyCellsExist() || neighbourMergesAvailable();
     };
 
 
 
 
-
-    function createRows (cells) {
-        var rows = [];
-        var tick = 0;
-        var row;
-        each(cells, function (cell) {
-            if (tick === 0) {
-                row = [];
-                rows.push(row);
-            }
-            row.push(cell);
-            tick = (tick + 1) % size;
-        });
-
-        return rows;
-    }
-
-
-    function createColumns (cells) {
-        var columns = [];
-        for (var i = 0 ; i < size ; i++ ) {
-            columns.push([]);
-        }
-
-        var tick = 0;
-        var column;
-        each(cells, function (cell) {
-            column = columns[tick];
-            column.push(cell);
-            tick = (tick + 1) % size;
-        });
-
-        return columns;
-    }
-
-
-    function manipulate (sets) {
-        var operation = false;
+    function attemptMove (sets) {
+        var moveSucceeded = false;
         each(sets, function (set) {
             var result = superMerge(set);
-            operation = operation || result;
+            moveSucceeded = moveSucceeded || result;
         });
-        return operation;
+        return moveSucceeded;
     }
 
-    function moveUp () {
-        var sets = createColumns(cells);
-        return manipulate(sets);
-    }
-
-    function moveDown () {
-        var sets = createColumns(reverse(cells));
-        return manipulate(sets);
-    }
-
-    function moveLeft () {
-        var sets = createRows(cells);
-        return manipulate(sets);
-    }
-
-    function moveRight () {
-        var sets = createRows(reverse(cells));
-        return manipulate(sets);
-    }
-
-    this.move = function (directionIndex) {
-        var direction = directions[directionIndex];
-        console.log(direction);
-        var options = {
-            'up': moveUp,
-            'right': moveRight,
-            'down': moveDown,
-            'left': moveLeft
-        };
-
-        var handler = options[direction];
-        var moveSucceeded = handler();
-
-        return { moved: moveSucceeded };
+    this.move = function (direction) {
+        var sets = order(cells, direction);
+        return attemptMove(sets);
     };
 
 
 
     this.placeRandomTile = function () {
         var value = 2;
-        var cell = randomFrom(emptyCells());
-        if (cell) {
-            cell.value = value;
+        var cell = selectAtRandom(emptyCells());
+        if (cell) { cell.value = value; }
+    };
+
+
+
+    this.contains = function (value) {
+        function valueMatches (cell) {
+            return cell.value === value;
         }
+        return filter(cells, valueMatches).length > 0;
     };
 
     var cells = buildGrid(size);
@@ -171,7 +104,6 @@ function Grid (size) {
 
     this.placeRandomTile();
     this.placeRandomTile();
-
 }
 
 module.exports = Grid;

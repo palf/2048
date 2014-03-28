@@ -1,5 +1,5 @@
 var GameManager = require('./game_manager');
-var Grid = require('./grid_two');
+var Grid = require('./grid');
 var AIs = require('./ais');
 var Views = require('./views');
 
@@ -10,9 +10,7 @@ function startApplication () {
     var view = Views.console();
 
     var manager = new GameManager(grid, player, view);
-    manager.run();
-    view.display(grid);
-    return manager.won;
+    return manager.run();
 }
 
 
@@ -26,5 +24,5 @@ function benchmark (func) {
 
 
 var stats = benchmark(startApplication);
-var result = stats.result ? 'won' : 'lost';
-console.log(result + ' in ' + stats.duration + ' seconds!');
+var result = stats.result ? 'won!' : 'lost...';
+console.log('You ' + result + ' (' + stats.duration + ' seconds)');
