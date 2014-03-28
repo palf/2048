@@ -1,247 +1,177 @@
-var Tile = require('./tile');
+var directions = require('./directions');
+var collection = require('./collection');
 
-var win_limit = 128;
+var each = collection.each;
+var filter = collection.filter;
+var reverse = collection.reverse;
 
-function selectAtRandom (array) {
-    return array[Math.floor(Math.random() * array.length)];
+
+
+function randomFrom (array) {
+    var index = Math.floor(Math.random() * array.length);
+    return array[index];
 }
 
-function positionsEqual (first, second) {
-    return (first.x === second.x) && (first.y === second.y);
+var superMerge = require('./merge');
+
+function buildGrid (size) {
+    var cells = [];
+    var square = size * size;
+
+    for (var i = 0 ; i < square ; i++) {
+        cells.push({ value: 0, neighbours: [] });
+    }
+
+    function connect (left, right) {
+        left.neighbours.push(right);
+    }
+
+    for (var j = 0 ; j < (square - 1) ; j ++) {
+        if ( (j + 1) % 4 !== 0) {
+            connect(cells[j], cells[j + 1]);
+        }
+    }
+
+    for (var k = 0 ; k < (square - size) ; k ++) {
+        connect(cells[k], cells[k + size]);
+    }
+
+    return cells;
 }
-
-
-var vectors = {
-    0: { x: 0,  y: -1 },
-    1: { x: 1,  y: 0 },
-    2: { x: 0,  y: 1 },
-    3: { x: -1, y: 0 }
-};
-
-function getVector (direction) {
-    return vectors[direction];
-}
-
-// function Cell (x, y, value) {
-//     this.x = x;
-//     this.y = y;
-//     this.value = value;
-
-//     this.left = null;
-//     this.right = null;
-//     this.up = null;
-//     this.down = null;
-// }
 
 
 function Grid (size) {
 
-    function eachCell (operation) {
-        for (var x = 0; x < size; x++) {
-            for (var y = 0; y < size; y++) {
-                operation(x, y, cells[x][y]);
+    function cellIsEmpty (cell) {
+        return (cell.value === 0);
+    }
+
+    function emptyCells () {
+        return collection.filter(cells, cellIsEmpty);
+    }
+
+    function emptyCellsExist () {
+        return emptyCells().length > 0;
+    }
+
+    function directMergesAvailable () {
+        var mergeAvailable = false;
+        function checkNeighboursForMatch (cell) {
+            function valueMatches (neighbour) {
+                return (cell.value === neighbour.value);
             }
+
+            mergeAvailable = mergeAvailable || ((filter(cell.neighbours, valueMatches)).length > 0);
         }
-    }
 
-    function availableCells () {
-        // var cellIsEmpty = function (cell) { cell.value === 0; }
-        // return allCells.filter(cellIsEmpty);
-        var available = [];
-        eachCell(function (x, y, tile) {
-            if (!tile) { available.push({ x: x, y: y }); }
-        });
-
-        return available;
-    }
-
-    function getContentOf (position) {
-        if (withinBounds(position)) {
-            return cells[position.x][position.y];
-        } else {
-            return null;
-        }
-    }
-
-    function isEmpty (position) {
-        return !getContentOf(position);
-    }
-
-    function withinBounds (position) {
-        return position.x >= 0 &&
-            position.y >= 0 &&
-            position.x < size &&
-            position.y < size;
-    }
-
-
-    function findFarthestPosition (position, vector) {
-        var previous, next = position;
-
-        do {
-            previous = next;
-            next = { x: previous.x + vector.x, y: previous.y + vector.y };
-        } while (withinBounds(next) && isEmpty(next));
-
-        return {
-            farthest: previous,
-            next: next
-        };
-    }
-
-
-
-    function someCellsAreEmpty () {
-        return availableCells().length > 0;
-    }
-
-    function tileMatchesAvailable () {
-        eachCell(function (x, y, tile) {
-            for (var direction = 0; direction < 4; direction++) {
-                var vector = getVector(direction);
-                var cell = { x: x + vector.x, y: y + vector.y };
-                var other = getContentOf(cell);
-                if (other && other.value === tile.value) {
-                    return true;
-                }
-            }
-        });
-
-        return false;
+        collection.each(cells, checkNeighboursForMatch);
+        return mergeAvailable;
     }
 
     this.movesAvailable = function () {
-        return someCellsAreEmpty() || tileMatchesAvailable();
+        return emptyCellsExist() || directMergesAvailable();
     };
 
 
 
 
-    function insertTile (tile) {
-        cells[tile.x][tile.y] = tile;
-    }
 
-    function removeTile (tile) {
-        cells[tile.x][tile.y] = null;
-    }
-
-    function addRandomTile () {
-        var value = (Math.random() < 0.9) ? 2 : 4;
-        var emptyCells = availableCells();
-        var tile = new Tile(selectAtRandom(emptyCells), value);
-        insertTile(tile);
-    }
-
-    function moveTile (tile, cell) {
-        cells[tile.x][tile.y] = null;
-        cells[cell.x][cell.y] = tile;
-        tile.updatePosition(cell);
-    }
-
-    function prepareTiles () {
-        eachCell(function (x, y, tile) {
-            if (tile) {
-                tile.mergedFrom = null;
-                tile.savePosition();
+    function createRows (cells) {
+        var rows = [];
+        var tick = 0;
+        var row;
+        each(cells, function (cell) {
+            if (tick === 0) {
+                row = [];
+                rows.push(row);
             }
-        });
-    }
-
-    function buildTraversals (vector) {
-        var traversals = { x: [], y: [] };
-
-        for (var pos = 0; pos < size; pos++) {
-            traversals.x.push(pos);
-            traversals.y.push(pos);
-        }
-
-        if (vector.x === 1) { traversals.x = traversals.x.reverse(); }
-        if (vector.y === 1) { traversals.y = traversals.y.reverse(); }
-
-        return traversals;
-    }
-
-
-    this.move = function (direction) {
-        var cell, tile;
-
-        var vector = getVector(direction);
-        var traversals = buildTraversals(vector);
-        var moved = false;
-        var won = false;
-
-        prepareTiles();
-
-        traversals.x.forEach(function (x) {
-            traversals.y.forEach(function (y) {
-                cell = indexes[x][y];
-                tile = getContentOf(cell);
-
-                if (tile) {
-                    var positions = findFarthestPosition(cell, vector);
-                    var next = getContentOf(positions.next);
-
-                    if (next && next.value === tile.value && !next.mergedFrom) {
-                        var merged = new Tile(positions.next, tile.value * 2);
-                        merged.mergedFrom = [tile, next];
-
-                        insertTile(merged);
-                        removeTile(tile);
-
-                        tile.updatePosition(positions.next);
-
-                        if (merged.value === win_limit) {
-                            won = true;
-                        }
-                    } else {
-                        moveTile(tile, positions.farthest);
-                    }
-
-                    if (!positionsEqual(cell, tile)) {
-                        playerTurn = false;
-                        moved = true;
-                    }
-                }
-            });
+            row.push(cell);
+            tick = (tick + 1) % size;
         });
 
-        return { moved: moved, won: won };
+        return rows;
+    }
+
+
+    function createColumns (cells) {
+        var columns = [];
+        for (var i = 0 ; i < size ; i++ ) {
+            columns.push([]);
+        }
+
+        var tick = 0;
+        var column;
+        each(cells, function (cell) {
+            column = columns[tick];
+            column.push(cell);
+            tick = (tick + 1) % size;
+        });
+
+        return columns;
+    }
+
+
+    function manipulate (sets) {
+        var operation = false;
+        each(sets, function (set) {
+            var result = superMerge(set);
+            operation = operation || result;
+        });
+        return operation;
+    }
+
+    function moveUp () {
+        var sets = createColumns(cells);
+        return manipulate(sets);
+    }
+
+    function moveDown () {
+        var sets = createColumns(reverse(cells));
+        return manipulate(sets);
+    }
+
+    function moveLeft () {
+        var sets = createRows(cells);
+        return manipulate(sets);
+    }
+
+    function moveRight () {
+        var sets = createRows(reverse(cells));
+        return manipulate(sets);
+    }
+
+    this.move = function (directionIndex) {
+        var direction = directions[directionIndex];
+        console.log(direction);
+        var options = {
+            'up': moveUp,
+            'right': moveRight,
+            'down': moveDown,
+            'left': moveLeft
+        };
+
+        var handler = options[direction];
+        var moveSucceeded = handler();
+
+        return { moved: moveSucceeded };
     };
 
-    this.placeRandomTile = function() {
-        addRandomTile();
-        playerTurn = true;
+
+
+    this.placeRandomTile = function () {
+        var value = 2;
+        var cell = randomFrom(emptyCells());
+        if (cell) {
+            cell.value = value;
+        }
     };
 
-
-    var startTiles = 2;
-    var playerTurn = true;
-
-    var cells = [];
-    var indexes = [];
-    var x, y;
-
-    for (x = 0; x < size; x ++) {
-        var column = [];
-        for (y = 0; y < size; y ++) {
-            column.push({ x: x, y: y });
-        }
-        indexes.push(column);
-    }
-
-    for (x = 0; x < size; x++) {
-        var row = cells[x] = [];
-
-        for (y = 0; y < size; y++) {
-            row.push(null);
-        }
-    }
-
-    for (var i = 0; i < startTiles; i++) {
-        addRandomTile();
-    }
-
+    var cells = buildGrid(size);
     this.cells = cells;
+
+    this.placeRandomTile();
+    this.placeRandomTile();
+
 }
 
 module.exports = Grid;

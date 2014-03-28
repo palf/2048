@@ -8,7 +8,7 @@ module.exports = {
     },
 
     mergeSum: function (grid) {
-        return new MergeSumAI(grid);
+        return new U(grid);
     },
 
     stolen: function (grid) {

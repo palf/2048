@@ -5,16 +5,10 @@ var toString = function(grid) {
         return cell ? cell.value : '_';
     }
 
-    // function printRow (row) {
-    //     forEachColumn(printCell);
-    // }
-
-    // forEachRow(printRow);
-
-    for (var i = 0; i < 4; i++) {
-        for (var j = 0; j < 4; j++) {
-            var column = grid.cells[j];
-            var cell = column[i];
+    var grid_size = 4;
+    for (var i = 0; i < grid_size; i++) {
+        for (var j = 0; j < grid_size; j++) {
+            var cell = grid.cells[j + grid_size * i];
             var cellString = printCell(cell);
             string += ( cellString + '\t' );
         }
@@ -22,13 +16,6 @@ var toString = function(grid) {
     }
     return string;
 };
-
-// grid.row(i) -> [] of cells in row i
-// grid.column(j) -> [] of cells in column j
-// grid.row(i).column(j) -> cell at i, j
-// grid.column(i).row(j) -> cell at j, i
-
-
 
 var ConsoleView = function () {
     this.display = function (grid) {

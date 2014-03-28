@@ -9,7 +9,7 @@ function GameManager(grid, player, view) {
     this.won = false;
 
     this.updateView = function () {
-        // view.display(grid);
+        view.display(grid);
     };
 
     this.updateView();
@@ -37,7 +37,6 @@ GameManager.prototype.run = function() {
     while (!this.gameOver) {
         var best = this.player.getMove();
         var directionIndex = best.move;
-        // console.log(directions[directionIndex]);
         var result = this.grid.move(directionIndex);
         this.onMove(result);
     }

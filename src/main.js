@@ -1,5 +1,5 @@
 var GameManager = require('./game_manager');
-var Grid = require('./grid');
+var Grid = require('./grid_two');
 var AIs = require('./ais');
 var Views = require('./views');
 
