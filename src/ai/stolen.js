@@ -1,10 +1,45 @@
 // var analysis = require('../grid_analysis');
 
-// var minSearchTime = 100;
+var minSearchTime = 100;
 
-// function AI(grid) {
-//     this.grid = grid;
-// }
+
+
+function AI(grid) {
+    this.grid = grid;
+
+
+    function iterativeDeep () {
+        var endTime = new Date().getTime() + minSearchTime;
+
+
+        function timeLeft () {
+            return ( new Date().getTime() < endTime );
+        }
+
+        var depth = 0;
+        var best;
+        do {
+            var newBest = this.search(depth, -10000, 10000, 0 ,0);
+            if (newBest.move === -1) {
+                break;
+            } else {
+                best = newBest;
+            }
+            depth++;
+        } while ( timeLeft() );
+        return best;
+    }
+
+
+    this.getMove = function () {
+        return iterativeDeep();
+    };
+}
+
+module.exports = AI;
+
+
+
 
 // AI.prototype.evaluate = function() {
 //     var emptyCells = this.grid.availableCells().length;
@@ -120,27 +155,7 @@
 //     return { move: bestMove, score: bestScore, positions: positions, cutoffs: cutoffs };
 // };
 
-// AI.prototype.getMove = function() {
-//     return this.iterativeDeep();
-// };
-
-// // performs iterative deepening over the alpha-beta search
-// AI.prototype.iterativeDeep = function() {
-//     var start = (new Date()).getTime();
-//     var depth = 0;
-//     var best;
-//     do {
-//         var newBest = this.search(depth, -10000, 10000, 0 ,0);
-//         if (newBest.move === -1) {
-//             break;
-//         } else {
-//             best = newBest;
-//         }
-//         depth++;
-//     } while ( (new Date()).getTime() - start < minSearchTime);
-//     return best;
-// };
 
 
 
-// module.exports = AI;
+

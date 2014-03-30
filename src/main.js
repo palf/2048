@@ -6,7 +6,7 @@ var Views = require('./views');
 
 function startApplication () {
     var grid = new Grid(4);
-    var player = AIs.random(grid);
+    var player = AIs.topScore(grid);
     var view = Views.console();
 
     var manager = new GameManager(grid, player, view);
@@ -24,5 +24,5 @@ function benchmark (func) {
 
 
 var stats = benchmark(startApplication);
-var result = stats.result ? 'won!' : 'lost...';
-console.log('You ' + result + ' (' + stats.duration + ' seconds)');
+var result = stats.result.won ? 'won!' : 'lost...';
+console.log('After ' + stats.result.turns + ' turns, you ' + result + ' (' + stats.duration + ' seconds)');

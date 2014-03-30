@@ -68,19 +68,32 @@ function Grid (size) {
 
 
 
-    function attemptMove (sets) {
+    function moveAllSets (sets) {
         var moveSucceeded = false;
+        var totalValue = 0;
         each(sets, function (set) {
             var result = superMerge(set);
-            moveSucceeded = moveSucceeded || result;
+            moveSucceeded = moveSucceeded || result.moved;
+            totalValue += result.value;
         });
-        return moveSucceeded;
+        return { successful: moveSucceeded, value: totalValue };
     }
 
     this.move = function (direction) {
         var sets = order(cells, direction);
-        return attemptMove(sets);
+        return moveAllSets(sets);
     };
+
+
+
+    this.clone = function () {
+        var grid = new Grid(size);
+        each(cells, function (cell, index) {
+            grid.cells[index].value = cell.value;
+        });
+        return grid;
+    };
+
 
 
 

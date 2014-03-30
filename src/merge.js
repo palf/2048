@@ -1,6 +1,7 @@
 module.exports = function superMerge (set) {
     var length = set.length;
     var operation = false;
+    var mergeValue = 0;
 
     for (var i = 0 ; i < length ; i++) {
         var leftMerged = false;
@@ -20,6 +21,7 @@ module.exports = function superMerge (set) {
                 set[j].value = 0;
                 leftMerged = true;
                 operation = true;
+                mergeValue += set[i].value;
 
             } else if (left === 0) {
                 //move
@@ -33,5 +35,5 @@ module.exports = function superMerge (set) {
         }
     }
 
-    return operation;
+    return { moved: operation, value: mergeValue };
 };

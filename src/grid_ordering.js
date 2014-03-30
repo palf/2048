@@ -46,12 +46,26 @@ function orderForDown (cells, size) { return createColumns(reverse(cells), size)
 function orderForLeft (cells, size) { return createRows(cells, size); }
 function orderForRight (cells, size) { return createRows(reverse(cells), size); }
 
-var setOrderBy = {};
-setOrderBy[directions.UP] = orderForUp;
-setOrderBy[directions.DOWN] = orderForDown;
-setOrderBy[directions.LEFT] = orderForLeft;
-setOrderBy[directions.RIGHT] = orderForRight;
+function getOrderingFor (direction) {
+    switch (direction) {
+        case directions.UP:
+            return orderForUp;
+
+        case directions.DOWN:
+            return orderForDown;
+
+        case directions.LEFT:
+            return orderForLeft;
+
+        case directions.RIGHT:
+            return orderForRight;
+
+        default:
+            throw new Error('invalid direction: ' + direction);
+    }
+}
 
 module.exports = function (cells, direction) {
-    return setOrderBy[direction](cells, 4);
-}
+    var order = getOrderingFor(direction);
+    return order(cells, 4);
+};

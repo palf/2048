@@ -1,7 +1,7 @@
 function each (items, operation) {
-    for (var i = 0 ; i < items.length ; i++) {
-        var item = items[i];
-        operation(item);
+    for (var index = 0 ; index < items.length ; index++) {
+        var item = items[index];
+        operation(item, index);
     }
 }
 
@@ -21,8 +21,16 @@ function reverse (array) {
     return newCollection;
 }
 
-function selectAtRandom (array) {
-    return array[Math.floor(Math.random() * array.length)];
+function selectAtRandom (object) {
+    if (object.length !== undefined) {
+        return object[Math.floor(Math.random() * object.length)];
+    } else {
+        var array = [];
+        for (var key in object) {
+            array.push(object[key]);
+        }
+        return selectAtRandom(array);
+    }
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 var directions = require('./directions');
 
-var winningValue = 128;
+var winningValue = 2048;
 
 function GameManager(grid, player, view) {
     var gameOver = false;
@@ -28,22 +28,26 @@ function GameManager(grid, player, view) {
         return !grid.movesAvailable();
     }
 
-    function handleMove (moved) {
-        if (moved) { grid.placeRandomTile(); }
-        view.display(grid);
+    function handleMove (move) {
+        if (move.successful) {
+            grid.placeRandomTile();
+            view.display(grid);
 
-        if ( winCondition(grid) ) { handleWinning(); }
-        else if ( loseCondition(grid) ) { handleLosing(); }
+            if ( winCondition(grid) ) { handleWinning(); }
+            else if ( loseCondition(grid) ) { handleLosing(); }
+        }
     }
 
     this.run = function() {
+        var turns = 0;
         while (!gameOver) {
-            var direction = player.getMove();
-            var moved = grid.move(direction);
-            console.log(direction, moved);
-            handleMove(moved);
+            var direction = player.getMove(directions);
+            var moveResult = grid.move(direction);
+            turns += 1;
+            console.log(direction, '-->', moveResult);
+            handleMove(moveResult);
         }
-        return gameWon;
+        return { won: gameWon, turns: turns };
     };
 
     updateView();

@@ -1,14 +1,14 @@
 var StolenAI = require('./ai/stolen');
 var RandomAI = require('./ai/random');
-var MergeSumAI = require('./ai/mergeSum');
+var TopScore = require('./ai/topScore');
 
 module.exports = {
     random: function (grid) {
         return new RandomAI(grid);
     },
 
-    mergeSum: function (grid) {
-        return new MergeSumAI(grid);
+    topScore: function (grid) {
+        return new TopScore(grid);
     },
 
     stolen: function (grid) {
