@@ -1,28 +1,28 @@
 {
-    "name": "2048-ai",
-    "version": "0.0.1",
-    "private": true,
-    "scripts": {
-        "start": "node start.js",
-        "test": "grunt"
-    },
-    "dependencies": {
-        "grunt": "~0.4.4",
-        "grunt-contrib-jshint": "~0.9.2",
-        "grunt-contrib-watch": "~0.6.1",
-        "grunt-contrib-nodeunit": "~0.3.3",
-        "grunt-nodemon": "~0.2.1"
-    },
-    "description": "2048 ai",
-    "main": "start.js",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/palf/2048.git"
-    },
-    "author": "",
-    "license": "BSD-2-Clause",
-    "bugs": {
-        "url": "https://github.com/palf/2048/issues"
-    },
-    "homepage": "https://github.com/palf/2048"
+  "name": "2048-ai",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node start.js",
+    "test": "grunt"
+  },
+  "dependencies": {
+    "grunt": "~0.4.4",
+    "grunt-contrib-jshint": "~0.9.2",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-nodeunit": "~0.3.3",
+    "grunt-nodemon": "~0.2.1"
+  },
+  "description": "2048 ai",
+  "main": "start.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/palf/2048.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/palf/2048/issues"
+  },
+  "homepage": "https://github.com/palf/2048"
 }

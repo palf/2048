@@ -11,7 +11,7 @@ function cells () {
 }
 
 
-exports['[ ]'] = function (test) {
+exports['[ ] -> [ ]'] = function (test) {
     var set = cells();
     var result = merge(set);
 
@@ -21,7 +21,7 @@ exports['[ ]'] = function (test) {
     test.done();
 };
 
-exports['[ 0 ]'] = function (test) {
+exports['[ 0 ] -> [ 0 ]'] = function (test) {
     var set = cells().add(0);
     var result = merge(set);
 
@@ -32,7 +32,7 @@ exports['[ 0 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 1 ]'] = function (test) {
+exports['[ 1 ] -> [ 1 ]'] = function (test) {
     var set = cells().add(1);
     var result = merge(set);
 
@@ -44,7 +44,7 @@ exports['[ 1 ]'] = function (test) {
 };
 
 
-exports['[ 0, 0 ]'] = function (test) {
+exports['[ 0, 0 ] -> [ 0, 0 ]'] = function (test) {
     var set = cells().add(0).add(0);
     var result = merge(set);
 
@@ -57,7 +57,7 @@ exports['[ 0, 0 ]'] = function (test) {
 };
 
 
-exports['[ 0, 1 ]'] = function (test) {
+exports['[ 0, 1 ] -> [ 1, 0 ]'] = function (test) {
     var set = cells().add(0).add(1);
     var result = merge(set);
 
@@ -70,7 +70,7 @@ exports['[ 0, 1 ]'] = function (test) {
 };
 
 
-exports['[ 1, 0 ]'] = function (test) {
+exports['[ 1, 0 ] -> [ 1, 0 ]'] = function (test) {
     var set = cells().add(1).add(0);
     var result = merge(set);
 
@@ -82,7 +82,7 @@ exports['[ 1, 0 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 1, 1 ]'] = function (test) {
+exports['[ 1, 1 ] -> [ 2, 0 ]'] = function (test) {
     var set = cells().add(1).add(1);
     var result = merge(set);
 
@@ -95,7 +95,7 @@ exports['[ 1, 1 ]'] = function (test) {
 };
 
 
-exports['[ 0, 0, 0 ]'] = function (test) {
+exports['[ 0, 0, 0 ] -> [ 0, 0, 0 ]'] = function (test) {
     var set = cells().add(0).add(0).add(0);
     var result = merge(set);
 
@@ -108,7 +108,7 @@ exports['[ 0, 0, 0 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 0, 0, 1 ]'] = function (test) {
+exports['[ 0, 0, 1 ] -> [ 1, 0, 0 ]'] = function (test) {
     var set = cells().add(0).add(0).add(1);
     var result = merge(set);
 
@@ -121,7 +121,7 @@ exports['[ 0, 0, 1 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 0, 1, 0 ]'] = function (test) {
+exports['[ 0, 1, 0 ] -> [ 1, 0, 0 ]'] = function (test) {
     var set = cells().add(0).add(1).add(0);
     var result = merge(set);
 
@@ -134,7 +134,7 @@ exports['[ 0, 1, 0 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 0, 1, 1 ]'] = function (test) {
+exports['[ 0, 1, 1 ] -> [ 2, 0, 0 ]'] = function (test) {
     var set = cells().add(0).add(1).add(1);
     var result = merge(set);
 
@@ -147,7 +147,7 @@ exports['[ 0, 1, 1 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 1, 0, 0 ]'] = function (test) {
+exports['[ 1, 0, 0 ] -> [ 1, 0, 0 ]'] = function (test) {
     var set = cells().add(1).add(0).add(0);
     var result = merge(set);
 
@@ -160,7 +160,7 @@ exports['[ 1, 0, 0 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 1, 0, 1 ]'] = function (test) {
+exports['[ 1, 0, 1 ] -> [ 2, 0, 0 ]'] = function (test) {
     var set = cells().add(1).add(0).add(1);
     var result = merge(set);
 
@@ -173,7 +173,7 @@ exports['[ 1, 0, 1 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 1, 1, 0 ]'] = function (test) {
+exports['[ 1, 1, 0 ] -> [ 2, 0, 0 ]'] = function (test) {
     var set = cells().add(1).add(1).add(0);
     var result = merge(set);
 
@@ -186,7 +186,7 @@ exports['[ 1, 1, 0 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 1, 1, 1 ]'] = function (test) {
+exports['[ 1, 1, 1 ] -> [ 2, 1, 0 ]'] = function (test) {
     var set = cells().add(1).add(1).add(1);
     var result = merge(set);
 
@@ -199,7 +199,7 @@ exports['[ 1, 1, 1 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 0, 1, 2 ]'] = function (test) {
+exports['[ 0, 1, 2 ] -> [ 1, 2, 0 ]'] = function (test) {
     var set = cells().add(0).add(1).add(2);
     var result = merge(set);
 
@@ -212,7 +212,7 @@ exports['[ 0, 1, 2 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 0, 2, 1 ]'] = function (test) {
+exports['[ 0, 2, 1 ] -> [ 2, 1, 0 ]'] = function (test) {
     var set = cells().add(0).add(2).add(1);
     var result = merge(set);
 
@@ -225,7 +225,7 @@ exports['[ 0, 2, 1 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 1, 0, 2 ]'] = function (test) {
+exports['[ 1, 0, 2 ] -> [ 1, 2, 0 ]'] = function (test) {
     var set = cells().add(1).add(0).add(2);
     var result = merge(set);
 
@@ -238,7 +238,7 @@ exports['[ 1, 0, 2 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 1, 2, 0 ]'] = function (test) {
+exports['[ 1, 2, 0 ] -> [ 1, 2, 0 ]'] = function (test) {
     var set = cells().add(1).add(2).add(0);
     var result = merge(set);
 
@@ -251,7 +251,7 @@ exports['[ 1, 2, 0 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 2, 0, 1 ]'] = function (test) {
+exports['[ 2, 0, 1 ] -> [ 2, 1, 0 ]'] = function (test) {
     var set = cells().add(2).add(0).add(1);
     var result = merge(set);
 
@@ -264,7 +264,7 @@ exports['[ 2, 0, 1 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 2, 1, 0 ]'] = function (test) {
+exports['[ 2, 1, 0 ] -> [ 2, 1, 0 ]'] = function (test) {
     var set = cells().add(2).add(1).add(0);
     var result = merge(set);
 
@@ -278,7 +278,7 @@ exports['[ 2, 1, 0 ]'] = function (test) {
 };
 
 
-exports['[ 2, 2, 1 ]'] = function (test) {
+exports['[ 2, 2, 1 ] -> [ 4, 1, 0 ]'] = function (test) {
     var set = cells().add(2).add(2).add(1);
     var result = merge(set);
 
@@ -291,7 +291,7 @@ exports['[ 2, 2, 1 ]'] = function (test) {
     test.done();
 };
 
-exports['[ 0, 4, 7, 4 ]'] = function (test) {
+exports['[ 0, 4, 7, 4 ] -> [ 4, 7, 4, 0 ]'] = function (test) {
     var set = cells().add(0).add(4).add(7).add(4);
     var result = merge(set);
 
