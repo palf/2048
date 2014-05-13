@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node start.js",
-    "test": "grunt"
+    "start": "grunt run",
+    "test": "grunt test"
   },
   "dependencies": {
     "grunt": "~0.4.4",

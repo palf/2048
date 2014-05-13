@@ -1,12 +1,17 @@
-'use strict';
+module.exports = function (grunt) {
+    'use strict';
 
-exports.config = {
-    lint: {
-        files: '<%= lint.source.src %>',
-        tasks: [ 'lint' ]
-    },
-    spec: {
-        files: '<%= lint.source.src %>',
-        tasks: [ 'spec' ]
-    }
+    var config = {
+        lint: {
+            files: '<%= lint.source.src %>',
+            tasks: [ 'lint' ]
+        },
+        test: {
+            files: [ '<%= test.files %>', 'src/**/*.js' ],
+            tasks: [ 'test' ]
+        }
+    };
+
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.config('watch', config);
 };
