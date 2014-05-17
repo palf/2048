@@ -1,12 +1,12 @@
-var GameManager = require('./game_manager');
-var Grid = require('./grid');
-var AIs = require('./ais');
-var Views = require('./views');
+var GameManager = require('./game/game_manager');
+var Grid = require('./game/grid');
+var AIPlayer = require('./ai/random');
+var Views = require('./views/console');
 
 
 function startApplication () {
     var grid = new Grid(4);
-    var player = AIs.topScore(grid);
+    var player = new AIPlayer(grid);
     var view = Views.console();
 
     var manager = new GameManager(grid, player, view);

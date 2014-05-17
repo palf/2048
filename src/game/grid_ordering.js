@@ -1,4 +1,4 @@
-var collection = require('./collection');
+var collection = require('../utils/collection');
 var directions = require('./directions');
 
 var each = collection.each;

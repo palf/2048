@@ -1,4 +1,4 @@
-var collection = require('./collection');
+var collection = require('../utils/collection');
 var order = require('./grid_ordering');
 var superMerge = require('./merge');
 
