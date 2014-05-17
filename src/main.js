@@ -1,13 +1,13 @@
 var GameManager = require('./game/game_manager');
 var Grid = require('./game/grid');
-var AIPlayer = require('./ai/random');
-var Views = require('./views/console');
+var AIPlayer = require('./ai/topScore');
+var View = require('./views/console');
 
 
 function startApplication () {
     var grid = new Grid(4);
     var player = new AIPlayer(grid);
-    var view = Views.console();
+    var view = new View();
 
     var manager = new GameManager(grid, player, view);
     return manager.run();

@@ -21,10 +21,8 @@ var ConsoleView = function () {
     this.display = function (grid) {
         console.log(toString(grid));
     };
+
+    this.log = console.log;
 };
 
-module.exports = {
-    console: function () {
-        return new ConsoleView();
-    }
-};
+module.exports = ConsoleView;
