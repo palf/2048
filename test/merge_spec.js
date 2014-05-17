@@ -1,4 +1,4 @@
-var merge = require('../src/merge');
+var merge = require('../src/game/merge');
 
 
 function cells () {
