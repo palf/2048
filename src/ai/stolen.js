@@ -2,15 +2,10 @@
 
 var minSearchTime = 100;
 
-
-
-function AI(grid) {
-    this.grid = grid;
-
+function AI (grid) {
 
     function iterativeDeep () {
         var endTime = new Date().getTime() + minSearchTime;
-
 
         function timeLeft () {
             return ( new Date().getTime() < endTime );
@@ -25,7 +20,7 @@ function AI(grid) {
             } else {
                 best = newBest;
             }
-            depth++;
+            depth ++;
         } while ( timeLeft() );
         return best;
     }
@@ -36,7 +31,6 @@ function AI(grid) {
     };
 }
 
-module.exports = AI;
 
 
 
@@ -57,8 +51,8 @@ module.exports = AI;
 
 // //AI.prototype.cache = {}
 
-// // alpha-beta depth first search
-// AI.prototype.search = function(depth, alpha, beta, positions, cutoffs) {
+AI.prototype.search = function(depth, alpha, beta, positions, cutoffs) {
+
 //     var bestScore;
 //     var bestMove = -1;
 //     var result;
@@ -159,3 +153,4 @@ module.exports = AI;
 
 
 
+module.exports = AI;

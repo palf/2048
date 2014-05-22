@@ -61,8 +61,13 @@ function Grid (size) {
         return mergeAvailable;
     }
 
-    this.movesAvailable = function () {
+    this.hasAvailableMoves = function () {
         return emptyCellsExist() || neighbourMergesAvailable();
+    };
+
+
+    this.options = function () {
+        return [ 'up', 'down', 'left', 'right' ];
     };
 
 

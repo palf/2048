@@ -21,7 +21,7 @@ function GameManager (game, player, view) {
     }
 
     function loseCondition (game) {
-        return !game.movesAvailable();
+        return !game.hasAvailableMoves();
     }
 
     function handleMove (move) {
@@ -36,7 +36,8 @@ function GameManager (game, player, view) {
 
     this.run = function() {
         var turns = 0;
-        while (!gameOver) {
+        // while (!gameOver) {
+        while (turns < 2) {
             var direction = player.getMove(directions);
             var moveResult = game.move(direction);
             turns += 1;

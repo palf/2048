@@ -1,6 +1,6 @@
 var GameManager = require('./game/game_manager');
 var Grid = require('./game/grid');
-var AIPlayer = require('./ai/topScore');
+var AIPlayer = require('./ai/depthfirst');
 var View = require('./views/console');
 
 
